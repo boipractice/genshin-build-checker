@@ -1,0 +1,11 @@
+﻿{
+    "python.analysis.typeCheckingMode": "basic",
+    "editor.formatOnSave": true,
+    "editor.rulers": [88, 120],
+    "notebook.output.scrolling": true,
+    "files.autoSave": "afterDelay",
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.black-formatter"
+    },
+    "python.defaultInterpreterPath": ".venv\\Scripts\\python.exe"
+}

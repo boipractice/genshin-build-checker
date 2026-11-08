@@ -1,2 +1,2 @@
 def main() -> None:
-    print("Hello from genshin-build-checker!")
+    print("Genshin Build Checker is Ready")
