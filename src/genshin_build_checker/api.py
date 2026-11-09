@@ -9,7 +9,11 @@ API_URL = os.getenv(
 )
 
 
-def fetch_character(name: str) -> dict | None:
+def fetch_character(
+    name: str,
+) -> (
+    dict | None
+):  # goes to every build and information of the character and checks if that character exist
     url = f"{API_URL}?query={urllib.parse.quote(name)}"
     try:
         with urllib.request.urlopen(url, timeout=10) as response:
