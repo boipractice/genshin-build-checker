@@ -1,6 +1,6 @@
 from genshin_build_checker.api import fetch_character
 from genshin_build_checker.data import load_builds
-from genshin_build_checker.rater import train_test_split
+from genshin_build_checker.rater import train_test_split, crit_value, learn_cutoff
 import logging
 import time
 
@@ -70,7 +70,19 @@ def main() -> None:  # prints out the character information
     train_names = set(b.character for b in train)
     test_names = set(b.character for b in test)
     overlap = test_names & train_names
+
     if overlap:
         log.warning(f"Data leakage: {overlap} in both train and test")
     else:
         print("Split is clean")
+    cutoff = learn_cutoff(train)
+    print(f"Cutoff: {cutoff:.2f}")
+
+    correct = 0
+    for build in test:
+        guess = 1 if crit_value(build) > cutoff else 0
+        print(build.character, "guess:", guess, "real", build.good)
+        if guess == build.good:
+            correct += 1
+
+    print(f"Accuracy: {correct} / {len(test)}")
