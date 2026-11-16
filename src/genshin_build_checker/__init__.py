@@ -1,5 +1,6 @@
 from genshin_build_checker.api import fetch_character
 from genshin_build_checker.data import load_builds
+from genshin_build_checker.rater import train_test_split
 import logging
 import time
 
@@ -61,3 +62,15 @@ def main() -> None:  # prints out the character information
             )
     api_seconds = start = time.perf_counter() - start
     print(f"\nLoading the CSV book took {load_seconds:.2f}s, API lookups took {api_seconds:2f}s")
+
+    train, test = train_test_split(valid_builds, seed=42)
+    print(f"\nTrain: {len(train)} builds, Test: {len(test)} builds")
+    print("Test:", [b.character for b in test])
+
+    train_names = set(b.character for b in train)
+    test_names = set(b.character for b in test)
+    overlap = test_names & train_names
+    if overlap:
+        log.warning(f"Data leakage: {overlap} in both train and test")
+    else:
+        print("Split is clean")
